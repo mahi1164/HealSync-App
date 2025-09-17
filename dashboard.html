@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealSync - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/i18next@latest/i18next.min.js"></script>
+    <script src="https://unpkg.com/tesseract.js@v2/dist/tesseract.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">HealSync</div>
+        <nav class="nav">
+            <div class="nav-right">
+                <div id="profile-dropdown">
+    <img id="profile-photo" src="https://via.placeholder.com/40" alt="Profile" class="rounded-circle">
+    <span id="username">Guest</span>
+    <ul class="dropdown-menu hidden">
+        <li><a href="login.html" data-i18n="auth.login">Login</a></li>
+        <li><a href="register.html" data-i18n="auth.register">Register</a></li>
+        <li><a href="dashboard.html" data-i18n="nav.dashboard">Dashboard</a></li>
+        <li><a href="index.html#features" data-i18n="nav.features">Features</a></li>
+        <li><a href="index.html#demo" data-i18n="nav.demo">Live Demo</a></li>
+    </ul>
+</div>
+                <button id="lang-toggle" onclick="toggleLanguage()">EN</button>
+                <button id="theme-toggle" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+        </nav>
+    </header>
+
+    <section class="dashboard-section">
+        <div class="container">
+            <h2 class="section-title" data-i18n="dashboard.title">Dashboard</h2>
+            <p class="section-subtitle" data-i18n="dashboard.subtitle">Monitor your translations, stats, and activity.</p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>150</h3>
+                    <p data-i18n="dashboard.today">Translations Today</p>
+                </div>
+                <div class="stat-card">
+                    <h3>98%</h3>
+                    <p data-i18n="dashboard.accuracy">Average Accuracy</p>
+                </div>
+                <div class="stat-card">
+                    <h3>50ms</h3>
+                    <p data-i18n="dashboard.response">Avg Response Time</p>
+                </div>
+                <div class="stat-card">
+                    <h3>5</h3>
+                    <p data-i18n="dashboard.emrs">Connected EMRs</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <h4 data-i18n="dashboard.history">Translation History</h4>
+                <canvas id="translation-chart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4 data-i18n="footer.about">About Us</h4>
+                    <p data-i18n="footer.about_text">Bridging traditional and modern medicine with cutting-edge technology.</p>
+                </div>
+                <div>
+                    <h4 data-i18n="footer.links">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html#home" data-i18n="nav.home">Home</a></li>
+                        <li><a href="index.html#demo" data-i18n="nav.demo">Demo</a></li>
+                        <li><a href="index.html#features" data-i18n="nav.features">Features</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 data-i18n="footer.contact">Contact</h4>
+                    <p>Email: support@healsync.com</p>
+                    <p>Phone: +91-123-4567890</p>
+                </div>
+            </div>
+            <p class="copyright">© 2025 HealSync. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealSync - Home</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/i18next@latest/i18next.min.js"></script>
+    <script src="https://unpkg.com/tesseract.js@v2/dist/tesseract.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">HealSync</div>
+        <nav class="nav">
+            <div class="nav-right">
+                <!-- Replace this entire div -->
+<div id="profile-dropdown">
+    <img id="profile-photo" src="https://via.placeholder.com/40" alt="Profile" class="rounded-circle">
+    <span id="username">Guest</span>
+    <ul class="dropdown-menu hidden">
+        <li><a href="login.html" data-i18n="auth.login">Login</a></li>
+        <li><a href="register.html" data-i18n="auth.register">Register</a></li>
+        <li><a href="dashboard.html" data-i18n="nav.dashboard">Dashboard</a></li>
+        <li><a href="index.html#features" data-i18n="nav.features">Features</a></li>
+        <li><a href="index.html#demo" data-i18n="nav.demo">Live Demo</a></li>
+    </ul>
+</div>
+                <button id="lang-toggle" onclick="toggleLanguage()">EN</button>
+                <button id="theme-toggle" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <div class="hero-left">
+                <h1 data-i18n="hero.title">Connecting 5,000 Years of Healing Wisdom to Modern Healthcare</h1>
+                <p class="subtitle" data-i18n="hero.subtitle">Seamlessly integrate NAMASTE & ICD-11 codes into your EMR system with our powerful API</p>
+                <div class="cta-buttons">
+                    <a href="#demo" class="btn btn-primary" data-i18n="hero.demo">Try Live Demo</a>
+                    <a href="#features" class="btn btn-secondary" data-i18n="hero.learn">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <h2 class="section-title" data-i18n="demo.title">🔄 Live Translation Demo</h2>
+            <p class="section-subtitle" data-i18n="demo.subtitle">Experience real-time code conversion between NAMASTE and ICD-11 systems</p>
+            <div class="demo-interface">
+                <div class="demo-header">
+                    <i class="fas fa-exchange-alt"></i>
+                    <h3 data-i18n="demo.translator">NAMASTE → ICD-11 Code Translator</h3>
+                    <span data-i18n="demo.realtime">⚡ Real-time</span>
+                </div>
+                <div class="demo-body">
+                    <div class="input-section">
+                        <h4 data-i18n="demo.terms"><i class="fas fa-leaf"></i> Traditional Medicine Terms</h4>
+                        <input type="text" id="searchInput" class="search-input" data-i18n="[placeholder]demo.placeholder">
+                        <div class="button-group">
+                            <button onclick="translateCode()" class="btn btn-primary" data-i18n="demo.translate">Translate</button>
+                            <button onclick="startListening()" class="btn btn-secondary" data-i18n="demo.speak">🎤 Speak</button>
+                        </div>
+                        <input type="file" id="imageUpload" class="search-input" accept="image/*">
+                        <div class="button-group">
+                            <button onclick="uploadImage()" class="btn btn-info" data-i18n="demo.upload">Upload Prescription</button>
+                            <button onclick="openWhatsApp()" class="btn btn-green" data-i18n="demo.whatsapp">WhatsApp Bot</button>
+                        </div>
+                        <h5 data-i18n="demo.popular">Popular Searches:</h5>
+                        <ul class="suggestions">
+                            <li onclick="setTerm('Vata Dosha Imbalance')" data-i18n="demo.vata">Vata Dosha Imbalance</li>
+                            <li onclick="setTerm('Pitta Fever')" data-i18n="demo.pitta">Pitta Fever</li>
+                            <li onclick="setTerm('Kapha Respiratory Issues')" data-i18n="demo.kapha">Kapha Respiratory Issues</li>
+                            <li onclick="setTerm('Tridosha Imbalance')" data-i18n="demo.tridosha">Tridosha Imbalance</li>
+                        </ul>
+                    </div>
+                    <div class="output-section">
+                        <h4 data-i18n="demo.icd"><i class="fas fa-globe"></i> ICD-11 Translation</h4>
+                        <div id="outputCard" class="output-card">
+                            <div class="code-result">
+                                <div class="label" data-i18n="demo.code">ICD-11 Code</div>
+                                <div class="value" id="icdCode" data-i18n="demo.select">Select a term to translate</div>
+                            </div>
+                            <div class="code-result">
+                                <div class="label" data-i18n="demo.desc">Description</div>
+                                <div class="value" id="description" data-i18n="demo.real">Real-time translation will appear here</div>
+                            </div>
+                            <div class="code-result">
+                                <div class="label" data-i18n="demo.category">Category</div>
+                                <div class="value" id="category" data-i18n="demo.module">Traditional Medicine Module</div>
+                            </div>
+                            <div class="code-result">
+                                <div class="label" data-i18n="demo.confidence">Translation Confidence</div>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" id="confidenceBar" style="width: 0%;"></div>
+                                </div>
+                                <div class="value" id="confidence">0%</div>
+                            </div>
+                            <div class="action-buttons button-group">
+                                <button class="btn-small btn-fhir" onclick="showFHIR()" data-i18n="demo.fhir">FHIR Format</button>
+                                <button class="btn-small btn-analytics" onclick="showAnalytics()" data-i18n="demo.analytics">Analytics</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title" data-i18n="features.title">Powerful Integration Features</h2>
+            <p class="section-subtitle" data-i18n="features.subtitle">Everything you need for seamless traditional medicine digitization</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-bolt feature-icon"></i>
+                    <h3 data-i18n="features.real.title">Real-time Translation</h3>
+                    <p data-i18n="features.real.desc">Instant code conversion with 98% accuracy using advanced matching algorithms and comprehensive mapping databases.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-microphone feature-icon"></i>
+                    <h3 data-i18n="features.voice.title">Voice Input</h3>
+                    <p data-i18n="features.voice.desc">Speak your terms your way and get instant translations in English or Hindi.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-upload feature-icon"></i>
+                    <h3 data-i18n="features.handwriting.title">Handwriting Recognition</h3>
+                    <p data-i18n="features.handwriting.desc">Upload handwritten prescriptions and convert them to ICD-11 codes automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-comments feature-icon"></i>
+                    <h3 data-i18n="features.whatsapp.title">WhatsApp Bot</h3>
+                    <p data-i18n="features.whatsapp.desc">Get translations and support via WhatsApp for quick access.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <h3 data-i18n="features.abha.title">ABHA Integration</h3>
+                    <p data-i18n="features.abha.desc">Secure authentication with Indian health IDs for compliance.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-code-branch feature-icon"></i>
+                    <h3 data-i18n="features.fhir.title">FHIR R4 Compliant</h3>
+                    <p data-i18n="features.fhir.desc">Global standards for seamless EMR integration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3 id="translations">0</h3>
+                    <p data-i18n="dashboard.today">Translations Performed</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="accuracy">0%</h3>
+                    <p data-i18n="dashboard.accuracy">Accuracy Rate</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="response-time">0ms</h3>
+                    <p data-i18n="dashboard.response">Avg Response Time</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="systems">0</h3>
+                    <p data-i18n="dashboard.emrs">EMR Systems Connected</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4 data-i18n="footer.about">About Us</h4>
+                    <p data-i18n="footer.about_text">Bridging traditional and modern medicine with cutting-edge technology.</p>
+                </div>
+                <div>
+                    <h4 data-i18n="footer.links">Quick Links</h4>
+                    <ul>
+                        <li><a href="#home" data-i18n="nav.home">Home</a></li>
+                        <li><a href="#demo" data-i18n="nav.demo">Demo</a></li>
+                        <li><a href="#features" data-i18n="nav.features">Features</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 data-i18n="footer.contact">Contact</h4>
+                    <p>Email: support@healsync.com</p>
+                    <p>Phone: +91-123-4567890</p>
+                </div>
+            </div>
+            <p class="copyright">© 2025 HealSync. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- FHIR Modal -->
+    <div id="fhir-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('fhir-modal')">&times;</span>
+            <h3 data-i18n="demo.fhir">FHIR Format</h3>
+            <pre id="fhir-output">{"resourceType": "Observation", "code": {"coding": [{"system": "http://snomed.info/sct", "code": "N/A"}]}}</pre>
+        </div>
+    </div>
+
+    <!-- Analytics Modal -->
+    <div id="analytics-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('analytics-modal')">&times;</span>
+            <h3 data-i18n="demo.analytics">Analytics</h3>
+            <canvas id="analytics-chart" width="400" height="200"></canvas>
+        </div>
+    </div>
+</body>
+</html>
